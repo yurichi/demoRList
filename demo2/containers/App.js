@@ -5,33 +5,36 @@ import Header from '../components/Header'
 import MainSection from '../components/MainSection'
 import * as TodoActions from '../actions/todos'
 
-
 class App extends Component {
   render() {
-      const { todos, actions } = this.props
-        return (
-            <div>
-                <Header addTodo={actions.addTodo} />
-                <MainSection todos={todos} actions={actions} />
-            </div>
-            )
-    }
+    const { todos, actions } = this.props
+    return (
+      <div>
+        <Header addTodo={actions.addTodo} />
+        <MainSection todos={todos} actions={actions} />
+      </div>
+    )
+  }
 }
 
-App.PropTypes = {
-  todos: PropTypes.array,
-  actions: PropTypes.object
+App.propTypes = {
+  todos: PropTypes.array.isRequired,
+  actions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
   return {
-    counter: state.counter
+    todos: state.todos
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(TodoActions, dispatch)
+  return {
+    actions: bindActionCreators(TodoActions, dispatch)
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
-
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)

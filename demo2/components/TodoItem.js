@@ -1,14 +1,19 @@
-import React, { Componet, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react'
 import classnames from 'classnames'
 import TodoTextInput from './TodoTextInput'
 
-class TodoItem extends Componet {
+class TodoItem extends Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
       editing: false
     }
   }
+
+  handleDoubleClick() {
+    this.setState({ editing: true })
+  }
+
   handleSave(id, text) {
     if (text.length === 0) {
       this.props.deleteTodo(id)
@@ -17,39 +22,34 @@ class TodoItem extends Componet {
     }
     this.setState({ editing: false })
   }
-  handleDoubleClick() {
-    this.setState({ editing: true })
-  }
 
   render() {
-      const { todo, completeTodo, deleteTodo } = this.props
+    const { todo, completeTodo, deleteTodo } = this.props
 
-      let elment
-
+    let element
     if (this.state.editing) {
       element = (
         <TodoTextInput text={todo.text}
-                editing={this.state.editing}
-                onSave={(text)=>this.handleSave(todo.id,text)}
-                />
+                       editing={this.state.editing}
+                       onSave={(text) => this.handleSave(todo.id, text)} />
       )
     } else {
       element = (
         <div className="view">
-                    <input className='toggle'
-                    checked={todo.completed}
-                    type="checkbox" 
-                    onChange={()=>completeTodo(todo.id)}
-                    />
-                    <lable onDoubleClick={this.handleDoubleClick.bind(this)}>{todo.text}</lable>
-                    <button className="destory" 
-                        onClick={()=>{deleteTodo(todo.id)}}
-                    />
-                </div>
+          <input className="toggle"
+                 type="checkbox"
+                 checked={todo.completed}
+                 onChange={() => completeTodo(todo.id)} />
+          <label onDoubleClick={this.handleDoubleClick.bind(this)}>
+            {todo.text}
+          </label>
+          <button className="destroy"
+                  onClick={() => deleteTodo(todo.id)} />
+        </div>
       )
     }
 
-  return (
+    return (
       <li className={classnames({
         completed: todo.completed,
         editing: this.state.editing
@@ -59,12 +59,12 @@ class TodoItem extends Componet {
     )
   }
 }
-TodoItem.PropTypes = {
-  todo: PropTypes.object,
-  completeTodo: PropTypes.func,
-  deleteTodo: PropTypes.func,
-  editTodo: PropTypes.func
+
+TodoItem.propTypes = {
+  todo: PropTypes.object.isRequired,
+  editTodo: PropTypes.func.isRequired,
+  deleteTodo: PropTypes.func.isRequired,
+  completeTodo: PropTypes.func.isRequired
 }
 
 export default TodoItem
-
