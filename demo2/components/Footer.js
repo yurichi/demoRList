@@ -19,19 +19,19 @@ class Footer extends Component {
     </span>
     )
   }
-  renderFilterLink(filter) {
-    const title = FILTER_TITLES[filter]
+  renderFilterLink(b) {
+    const title = FILTER_TITLES[b]
     const { filter: selectedFilter, onShow } = this.props
 
     return ( <a className = {
         classnames({
-          selected: filter === selectedFilter
+          selected: b === selectedFilter
         })
       }
       style = {
         { cousor: 'pointer' } }
       onClick = {
-        () => onShow(filter) }>
+        () => onShow(b) }>
          { title } 
          </a>
     )
@@ -52,9 +52,9 @@ class Footer extends Component {
       <footer className="footer">
         {this.renderTodoCount()}
         <ul className="filters">
-          {[ SHOW_ALL, SHOW_ACTIVE, SHOW_COMPLETED ].map(filter=>
-            <li key={filter}>
-              {this.renderFilterLink(filter)}
+          {[ SHOW_ALL, SHOW_ACTIVE, SHOW_COMPLETED ].map(a=>
+            <li key={a}>
+              {this.renderFilterLink(a)}
             </li>
           )}
         </ul>

@@ -6,6 +6,21 @@ import MainSection from '../components/MainSection'
 import * as TodoActions from '../actions/todos'
 
 class App extends Component {
+
+  //初始化渲染后触发
+  componentDidMount() {
+    console.log('执行componentDidMount');
+    const { dispatch, selectedReddit } = this.props
+    // dispatch(fetchPostsIfNeeded(selectedReddit))
+  }
+  //每次接受新的props触发
+  componentWillReceiveProps(nextProps) {
+    console.log('执行componentWillReceiveProps',nextProps);
+    if (nextProps.selectedReddit !== this.props.selectedReddit) {
+      const { dispatch, selectedReddit } = nextProps
+      // dispatch(fetchPostsIfNeeded(selectedReddit))
+    }
+  }
   render() {
     const { todos, actions } = this.props
     return (
@@ -33,6 +48,8 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators(TodoActions, dispatch)
   }
 }
+
+
 
 export default connect(
   mapStateToProps,
